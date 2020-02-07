@@ -11,7 +11,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'email', 'password', 'role_id', 'approved', 'active', 'username', 'is_deactivated'
+        'email', 'password', 'role_id', 'approved', 'active', 'username', 'is_active'
     ];
 
     protected $hidden = [
@@ -25,12 +25,12 @@ class User extends Authenticatable
     public function isDeactivated()
     {
         return $this->is_deactivated == 1;
-    } 
+    }
 
     public function cleaner_service_provider(){
         return $this->hasOne('App\Models\CleanerServiceProvider', 'cleaner_id', 'id');
     }
-    
+
     public function client_schedules(){
         return $this->hasMany('App\Models\CleanerSchedule', 'client_id', 'id');
     }
@@ -42,7 +42,7 @@ class User extends Authenticatable
     public function service_provider(){
         return $this->hasOne('App\Models\ServiceProvider', 'ownder_id', 'id');
     }
-    
+
     public function schedule(){
         return $this->hasManyThrough('App\Models\Schedule', 'cleaner_id', 'id');
     }

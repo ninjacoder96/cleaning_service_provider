@@ -81,13 +81,13 @@ class AdminController extends Controller
     public function change_password(Request $request){
         $user = User::findOrFail(Auth::user()->id);
         $user->update([
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
 
         return response()->json();
     }
 
     public function reports(){
-        
+
     }
 }

@@ -43,7 +43,7 @@ class ServiceProviderController extends Controller
 
         $admin_id = User::where('role_id', 1)->first();
 
-        $notif = Notification::create([ 
+        $notif = Notification::create([
             'sender_id' => $owner_id,
             'notification' => 'Transaction Completed',
             'receiver_id' => $admin_id,
@@ -70,7 +70,6 @@ class ServiceProviderController extends Controller
     }
 
     public function deactivate($id){
-
     	$sp = ServiceProvider::findOrFail($id);
     	$sp->update([
     		'approved' => 2,

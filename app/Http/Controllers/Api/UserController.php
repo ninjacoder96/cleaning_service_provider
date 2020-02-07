@@ -52,7 +52,7 @@ class UserController extends Controller
     }
 
     public function deactivate($id){
-    	$user = User::findOrFail($id);
+        $user = User::findOrFail($id);
     	$user->update([
     		'is_active' => 0
         ]);

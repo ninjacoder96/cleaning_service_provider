@@ -50,9 +50,9 @@
                                         </td>
                                         <td>
                                             <button class="btn btn-sm btn-danger" v-show="u.is_active == 1"
-                                                @click="activate(u.id)">Deactivate</button>
+                                                @click="deactivate(u.id)">Deactivate</button>
                                             <button class="btn btn-sm btn-success" v-show="u.is_active == 0"
-                                                @click="deactivate(u.id)">Active</button>
+                                                @click="activate(u.id)">Active</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -177,16 +177,16 @@
                 </div>
             </div>
         </div>
-    <modal-confirmation></modal-confirmation>
+    <deactivate-confirmation-modal></deactivate-confirmation-modal>
     </div>
 
 </template>
 
 <script>
-    import ModalConfirmation from '../modal/confirmation_modal.vue';
+    import DeactivateConfirmationModal from '../modal/deactivate_confirmation_modal.vue';
     export default {
         components:{
-            ModalConfirmation
+            DeactivateConfirmationModal
         },
         data() {
             return {
@@ -205,6 +205,7 @@
                     address: '',
 
                 },
+                msg: ''
             }
         },
         methods: {
@@ -219,30 +220,34 @@
                 });
             },
             activate(id) {
-                $("#confirmation_modal_activate_deactivate").modal('show');
-                axios.put('../../activate/' + id).then(({
-                    data
-                }) => {
-                    this.get_users();
-                    toast.fire({
-                        type: 'success',
-                        title: 'Activate Successfuly'
-                    });
-                }).catch(() => {
+                    axios.put('../../activate/' + id).then(({
+                        data
+                    }) => {
+                        this.get_users();
+                        toast.fire({
+                            type: 'success',
+                            title: 'Activate Successfuly'
+                        });
+                    }).catch(() => {
 
-                });
+                    });
+
             },
             deactivate(id) {
-                axios.put('../../deactivate/' + id).then(({
-                    data
-                }) => {
-                    this.get_users();
-                    toast.fire({
-                        type: 'success',
-                        title: 'Deactivate Successfuly'
-                    });
-                }).catch(() => {
 
+                $("#confirmation_modal_activate_deactivate").modal('show');
+                $("#deactivate__user_button").on('click',function(){
+                    axios.put('../../deactivate/' + id).then(({
+                        data
+                    }) => {
+                        this.get_users();
+                        toast.fire({
+                            type: 'success',
+                            title: 'Deactivate Successfuly'
+                        });
+                    }).catch(() => {
+
+                    });
                 });
             },
             add_admin() {

@@ -1940,10 +1940,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/confirmation_modal.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modal/confirmation_modal.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2133,6 +2133,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2148,9 +2150,9 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.new_password == this.confirm_password) {
         axios.post('../../change_password', {
-          new_password: '',
-          confirm_password: '',
-          old_password: ''
+          new_password: this.new_password,
+          confirm_password: this.confirm_password,
+          old_password: this.old_password
         }).then(function () {
           _this.new_password = '';
           _this.confirm_password = '';
@@ -2160,7 +2162,12 @@ __webpack_require__.r(__webpack_exports__);
             type: 'success',
             title: 'Change Password Successfuly'
           });
-        })["catch"](function () {});
+        })["catch"](function (error) {
+          toast.fire({
+            type: 'error',
+            title: 'Something wrong!' + error
+          });
+        });
       } else {
         this.error = true;
       }
@@ -3561,7 +3568,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modal_confirmation_modal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modal/confirmation_modal.vue */ "./resources/js/modal/confirmation_modal.vue");
+/* harmony import */ var _modal_deactivate_confirmation_modal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modal/deactivate_confirmation_modal.vue */ "./resources/js/modal/deactivate_confirmation_modal.vue");
 //
 //
 //
@@ -3749,7 +3756,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ModalConfirmation: _modal_confirmation_modal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    DeactivateConfirmationModal: _modal_deactivate_confirmation_modal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
@@ -3766,7 +3773,8 @@ __webpack_require__.r(__webpack_exports__);
         middlename: '',
         date_of_birth: '',
         address: ''
-      }
+      },
+      msg: ''
     };
   },
   methods: {
@@ -3782,7 +3790,6 @@ __webpack_require__.r(__webpack_exports__);
     activate: function activate(id) {
       var _this2 = this;
 
-      $("#confirmation_modal_activate_deactivate").modal('show');
       axios.put('../../activate/' + id).then(function (_ref2) {
         var data = _ref2.data;
 
@@ -3795,18 +3802,21 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function () {});
     },
     deactivate: function deactivate(id) {
-      var _this3 = this;
+      $("#confirmation_modal_activate_deactivate").modal('show');
+      $("#deactivate__user_button").on('click', function () {
+        var _this3 = this;
 
-      axios.put('../../deactivate/' + id).then(function (_ref3) {
-        var data = _ref3.data;
+        axios.put('../../deactivate/' + id).then(function (_ref3) {
+          var data = _ref3.data;
 
-        _this3.get_users();
+          _this3.get_users();
 
-        toast.fire({
-          type: 'success',
-          title: 'Deactivate Successfuly'
-        });
-      })["catch"](function () {});
+          toast.fire({
+            type: 'success',
+            title: 'Deactivate Successfuly'
+          });
+        })["catch"](function () {});
+      });
     },
     add_admin: function add_admin() {
       this.editmode = false;
@@ -54376,10 +54386,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/confirmation_modal.vue?vue&type=template&id=8cedee7a&":
-/*!****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modal/confirmation_modal.vue?vue&type=template&id=8cedee7a& ***!
-  \****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=template&id=de11a644&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=template&id=de11a644& ***!
+  \***************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -54448,13 +54458,16 @@ var staticRenderFns = [
                     staticClass: "btn btn-secondary",
                     attrs: { type: "button", "data-dismiss": "modal" }
                   },
-                  [_vm._v("Close")]
+                  [_vm._v("CLOSE")]
                 ),
                 _vm._v(" "),
                 _c(
                   "button",
-                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                  [_vm._v("Save changes")]
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", id: "deactivate__user_button" }
+                  },
+                  [_vm._v("SUBMIT")]
                 )
               ])
             ])
@@ -54620,7 +54633,11 @@ var render = function() {
                           ],
                           staticClass: "text-danger"
                         },
-                        [_vm._v("These credentials do not match our records.")]
+                        [
+                          _vm._v(
+                            "These credentials do not match our\n                                        records."
+                          )
+                        ]
                       )
                     ])
                   ])
@@ -54629,7 +54646,7 @@ var render = function() {
                 _c("div", { staticClass: "form-group row" }, [
                   _c("div", { staticClass: "col-3 text-right" }, [
                     _vm._v(
-                      "\n      \t\t\t\t\t\t\t\t\tOld Password:\n      \t\t\t\t\t\t\t\t"
+                      "\n                                Old Password:\n                            "
                     )
                   ]),
                   _vm._v(" "),
@@ -54661,7 +54678,7 @@ var render = function() {
                 _c("div", { staticClass: "form-group row" }, [
                   _c("div", { staticClass: "col-3 text-right" }, [
                     _vm._v(
-                      "\n      \t\t\t\t\t\t\t\t\tNew Password:\n      \t\t\t\t\t\t\t\t"
+                      "\n                                New Password:\n                            "
                     )
                   ]),
                   _vm._v(" "),
@@ -54693,7 +54710,7 @@ var render = function() {
                 _c("div", { staticClass: "form-group row" }, [
                   _c("div", { staticClass: "col-3 text-right" }, [
                     _vm._v(
-                      "\n      \t\t\t\t\t\t\t\t\tConfirm Password:\n      \t\t\t\t\t\t\t\t"
+                      "\n                                Confirm Password:\n                            "
                     )
                   ]),
                   _vm._v(" "),
@@ -58566,7 +58583,7 @@ var render = function() {
                                 staticClass: "btn btn-sm btn-danger",
                                 on: {
                                   click: function($event) {
-                                    return _vm.activate(u.id)
+                                    return _vm.deactivate(u.id)
                                   }
                                 }
                               },
@@ -58587,7 +58604,7 @@ var render = function() {
                                 staticClass: "btn btn-sm btn-success",
                                 on: {
                                   click: function($event) {
-                                    return _vm.deactivate(u.id)
+                                    return _vm.activate(u.id)
                                   }
                                 }
                               },
@@ -58934,7 +58951,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("modal-confirmation")
+      _c("deactivate-confirmation-modal")
     ],
     1
   )
@@ -74738,17 +74755,17 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 /***/ }),
 
-/***/ "./resources/js/modal/confirmation_modal.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/modal/confirmation_modal.vue ***!
-  \***************************************************/
+/***/ "./resources/js/modal/deactivate_confirmation_modal.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/modal/deactivate_confirmation_modal.vue ***!
+  \**************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _confirmation_modal_vue_vue_type_template_id_8cedee7a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./confirmation_modal.vue?vue&type=template&id=8cedee7a& */ "./resources/js/modal/confirmation_modal.vue?vue&type=template&id=8cedee7a&");
-/* harmony import */ var _confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./confirmation_modal.vue?vue&type=script&lang=js& */ "./resources/js/modal/confirmation_modal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _deactivate_confirmation_modal_vue_vue_type_template_id_de11a644___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./deactivate_confirmation_modal.vue?vue&type=template&id=de11a644& */ "./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=template&id=de11a644&");
+/* harmony import */ var _deactivate_confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./deactivate_confirmation_modal.vue?vue&type=script&lang=js& */ "./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -74758,9 +74775,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _confirmation_modal_vue_vue_type_template_id_8cedee7a___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _confirmation_modal_vue_vue_type_template_id_8cedee7a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _deactivate_confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _deactivate_confirmation_modal_vue_vue_type_template_id_de11a644___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _deactivate_confirmation_modal_vue_vue_type_template_id_de11a644___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -74770,38 +74787,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/modal/confirmation_modal.vue"
+component.options.__file = "resources/js/modal/deactivate_confirmation_modal.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/modal/confirmation_modal.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/modal/confirmation_modal.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
+/***/ "./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./confirmation_modal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/confirmation_modal.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deactivate_confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./deactivate_confirmation_modal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_deactivate_confirmation_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/modal/confirmation_modal.vue?vue&type=template&id=8cedee7a&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/modal/confirmation_modal.vue?vue&type=template&id=8cedee7a& ***!
-  \**********************************************************************************/
+/***/ "./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=template&id=de11a644&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=template&id=de11a644& ***!
+  \*********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_confirmation_modal_vue_vue_type_template_id_8cedee7a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./confirmation_modal.vue?vue&type=template&id=8cedee7a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/confirmation_modal.vue?vue&type=template&id=8cedee7a&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_confirmation_modal_vue_vue_type_template_id_8cedee7a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deactivate_confirmation_modal_vue_vue_type_template_id_de11a644___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./deactivate_confirmation_modal.vue?vue&type=template&id=de11a644& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modal/deactivate_confirmation_modal.vue?vue&type=template&id=de11a644&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deactivate_confirmation_modal_vue_vue_type_template_id_de11a644___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_confirmation_modal_vue_vue_type_template_id_8cedee7a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_deactivate_confirmation_modal_vue_vue_type_template_id_de11a644___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
