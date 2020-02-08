@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Models\Message;
 
 class UserProfile extends Model
 {
@@ -15,7 +16,11 @@ class UserProfile extends Model
     	'mobile_number',
     	'address',
     	'date_of_birth',
-    ];
+	];
+	
+	public function messages(){
+		return $this->hasMany(Message::class,'receiver_id')->latest();
+	}
 
     public function user(){
     	return $this->belongsTo('App\User');

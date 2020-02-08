@@ -6,18 +6,10 @@
             <div class="card-header">
               Notifications
             </div>
-            <div class="card-body">
-              <div class="table-responsive-sm">
-                <table class="table table-sm table-hover">
-                  <tbody>
-                    <tr v-for="(n, index) in notifications" :key="index">
-                      <td class="text-capitalize">
-                        <span>{{ n.sender_fullname }}</span> <span>{{ n.notification }}</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div v-for="(n,index) in notifications" :key="index" class="card-body">
+               <h5 class="card-title">{{ n.sender_fullname }}</h5>
+                  <p class="card-text">{{ n.notification }}</p>
+              <hr>
             </div>
           </div>
         </div>

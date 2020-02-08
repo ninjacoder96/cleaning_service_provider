@@ -71,6 +71,8 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Company', 'owner_id', 'id');
     }
 
+    
+
     public function send_message(){
         return $this->hasMany('App\Models\Message', 'sender_id', 'id');
     }
