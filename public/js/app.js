@@ -3753,6 +3753,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3802,21 +3804,16 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function () {});
     },
     deactivate: function deactivate(id) {
-      $("#confirmation_modal_activate_deactivate").modal('show');
-      $("#deactivate__user_button").on('click', function () {
-        var _this3 = this;
+      var _this3 = this;
 
-        axios.put('../../deactivate/' + id).then(function (_ref3) {
-          var data = _ref3.data;
+      axios.put('../../deactivate/' + id).then(function (response) {
+        _this3.get_users();
 
-          _this3.get_users();
-
-          toast.fire({
-            type: 'success',
-            title: 'Deactivate Successfuly'
-          });
-        })["catch"](function () {});
-      });
+        toast.fire({
+          type: 'success',
+          title: 'Deactivate Successfuly'
+        });
+      })["catch"](function () {});
     },
     add_admin: function add_admin() {
       this.editmode = false;
@@ -3835,8 +3832,8 @@ __webpack_require__.r(__webpack_exports__);
         date_of_birth: this.form.date_of_birth,
         address: this.form.address,
         mobile_number: this.form.mobile_number
-      }).then(function (_ref4) {
-        var data = _ref4.data;
+      }).then(function (_ref3) {
+        var data = _ref3.data;
 
         _this4.get_users();
 
@@ -11966,7 +11963,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.list-group{\r\n    height: 18rem !important;\r\n\r\n    overflow-y:scroll;\r\n    -webkit-overflow-scrolling: touch;\n}\r\n", ""]);
+exports.push([module.i, "\n.list-group{\n    height: 18rem !important;\n\n    overflow-y:scroll;\n    -webkit-overflow-scrolling: touch;\n}\n", ""]);
 
 // exports
 
@@ -11985,7 +11982,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.list-group{\r\n    height: 23rem;\r\n\r\n    overflow-y:scroll;\r\n    -webkit-overflow-scrolling: touch;\n}\r\n", ""]);
+exports.push([module.i, "\n.list-group{\n    height: 23rem;\n\n    overflow-y:scroll;\n    -webkit-overflow-scrolling: touch;\n}\n", ""]);
 
 // exports
 
@@ -58568,49 +58565,62 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value: u.is_active == 1,
-                                    expression: "u.is_active == 1"
-                                  }
-                                ],
-                                staticClass: "btn btn-sm btn-danger",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deactivate(u.id)
-                                  }
+                          _c(
+                            "td",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: u.role_id == 1 || u.role_id == 2,
+                                  expression: "u.role_id == 1 || u.role_id == 2"
                                 }
-                              },
-                              [_vm._v("Deactivate")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value: u.is_active == 0,
-                                    expression: "u.is_active == 0"
+                              ]
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: u.is_active == 1,
+                                      expression: "u.is_active == 1"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-sm btn-danger",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.deactivate(u.id)
+                                    }
                                   }
-                                ],
-                                staticClass: "btn btn-sm btn-success",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.activate(u.id)
+                                },
+                                [_vm._v("Deactivate")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: u.is_active == 0,
+                                      expression: "u.is_active == 0"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-sm btn-success",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.activate(u.id)
+                                    }
                                   }
-                                }
-                              },
-                              [_vm._v("Active")]
-                            )
-                          ])
+                                },
+                                [_vm._v("Active")]
+                              )
+                            ]
+                          )
                         ])
                       }),
                       0
@@ -58977,7 +58987,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),
-        _c("th")
+        _c("th", [_vm._v("Action")])
       ])
     ])
   },
@@ -76465,8 +76475,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\cm\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\cm\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/cleaning_service_provider/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/cleaning_service_provider/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

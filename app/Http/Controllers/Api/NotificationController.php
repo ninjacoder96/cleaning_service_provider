@@ -46,7 +46,6 @@ class NotificationController extends Controller
     public function new_user_notifs(){
         $user_id = Auth::user()->id;
         $notifs = Notification::where('receiver_id', $user_id)
-        ->where('viewed', 0)
         ->orderBy('created_at', 'desc')
         ->count();
 

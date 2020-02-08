@@ -1,3 +1,4 @@
+
 <template>
     <div class="container mt-2">
         <div class="row">
@@ -30,7 +31,7 @@
                                         <th>Name</th>
                                         <th>Role</th>
                                         <th>Status</th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,11 +45,12 @@
                                             <span v-show="u.role_id == 4">Client</span>
                                         </td>
                                         <td>
+
                                             <span class="badge badge-success" v-show="u.is_active == 1">Activated</span>
                                             <span class="badge badge-danger"
                                                 v-show="u.is_active == 0">Deactivated</span>
                                         </td>
-                                        <td>
+                                        <td v-show="u.role_id == 1 || u.role_id == 2">
                                             <button class="btn btn-sm btn-danger" v-show="u.is_active == 1"
                                                 @click="deactivate(u.id)">Deactivate</button>
                                             <button class="btn btn-sm btn-success" v-show="u.is_active == 0"
@@ -203,7 +205,6 @@
                     middlename: '',
                     date_of_birth: '',
                     address: '',
-
                 },
                 msg: ''
             }
@@ -216,7 +217,6 @@
                     console.log(data);
                     this.users = data;
                 }).catch(() => {
-
                 });
             },
             activate(id) {
@@ -229,26 +229,20 @@
                             title: 'Activate Successfuly'
                         });
                     }).catch(() => {
-
                     });
-
             },
-            deactivate(id) {
-
-                $("#confirmation_modal_activate_deactivate").modal('show');
-                $("#deactivate__user_button").on('click',function(){
-                    axios.put('../../deactivate/' + id).then(({
-                        data
-                    }) => {
+            deactivate: function(id) {
+               
+                axios.put('../../deactivate/' + id).then(response => {
                         this.get_users();
                         toast.fire({
                             type: 'success',
                             title: 'Deactivate Successfuly'
                         });
-                    }).catch(() => {
+                }).catch(() => {
 
-                    });
                 });
+            
             },
             add_admin() {
                 this.editmode = false;
@@ -275,7 +269,6 @@
                         title: 'Created Successfuly'
                     });
                 }).catch(() => {
-
                 });
             }
         },
@@ -283,9 +276,4 @@
             this.get_users();
         }
     }
-
 </script>
-
-<style>
-
-</style>
