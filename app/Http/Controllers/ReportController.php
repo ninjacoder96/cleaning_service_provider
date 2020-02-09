@@ -37,6 +37,7 @@ class ReportController extends Controller
     }
 
     public function admin_create_report(Request $request){
+        var_dump($request->post());
     	if($request->role_id == 2){
 
 

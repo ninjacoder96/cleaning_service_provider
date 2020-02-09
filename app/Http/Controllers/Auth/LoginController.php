@@ -47,7 +47,7 @@ class LoginController extends Controller
     {
 
         if(Auth::user()->role_id==1){
-            return '/adminhome';
+            return '/admin_dashboard';
         }elseif(Auth::user()->role_id==2 ){
             if(Auth::user()->approved == 1){
                 return '/ownerhome';

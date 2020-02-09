@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import Swal from 'sweetalert2'
+import VueMoment from 'vue-moment';
+Vue.use(VueMoment);
 
 /**
  * The following block of code may be used to automatically register your
@@ -56,6 +58,9 @@ Vue.component('admin_report-page', require('./pages/admin_report.vue').default);
 Vue.component('service_provider_report-page', require('./pages/service_provider_report.vue').default);
 Vue.component('cleaner_report-page', require('./pages/cleaner_report.vue').default);
 Vue.component('client_report-page', require('./pages/client_report.vue').default);
+
+
+Vue.component('admin-dashboard-page',require('./pages/admin_dashboard.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

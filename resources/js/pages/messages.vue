@@ -2,23 +2,6 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive-sm">
-                    <table class="table-sm">
-                        <tbody>
-                            <tr>
-                                <td v-for="(contact, index) in contacts" :key="index" @click="select_user(contact)"
-                                    v-show="contact.id !== user_id" class="text-center">
-                                    <div width="100px" height="100px">
-                                        <img :src="'img/service_providers/logos/CleanMeister.jpg'"
-                                            class="rounded-circle" alt="img" width="65px" height="65px">
-                                        <div class="w-100"></div>
-                                        <small>{{ contact.profile.firstname }} {{ contact.profile.lastname }}</small>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
             <div class="col-12">
                 <h3 class=" text-center">Messaging</h3>
@@ -40,16 +23,19 @@
                             </div>
                             <div class="inbox_chat">
 
-                                <div class="chat_list" v-for="(contact,index) in contacts" :key="index" @click="selected_user(contact)" v-show="contact.id !== user_id">
+                                <div class="chat_list" v-for="(contact,index) in contacts" :key="index"
+                                    @click="select_user(contact)" v-show="contact.id !== user_id">
                                     <div class="chat_people">
                                         <div class="chat_img">
-                                            <img class="rounded-circle" :src="'img/service_providers/logos/CleanMeister.jpg'"
-                                            alt="img" width="40px" height="40px">
+                                            <img class="rounded-circle"
+                                                :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img"
+                                                width="40px" height="40px">
                                         </div>
                                         <div class="chat_ib">
-                                            <h5>{{ contact.profile.firstname }} {{ contact.profile.lastname }}<span class="chat_date">Dec 25</span></h5>
+                                            <h5>{{ contact.profile.firstname }} {{ contact.profile.lastname }}<span
+                                                    class="chat_date">Dec 25</span></h5>
 
-                                            <p v-for="(message,index) in contact.profile.messages" :key="index"> 
+                                            <p v-for="(message,index) in contact.profile.messages" :key="index">
                                                 {{ message.text_message }}
                                             </p>
                                         </div>
@@ -59,39 +45,32 @@
                         </div>
                         <div class="mesgs">
                             <div class="msg_history">
-                                <div class="incoming_msg">
-                                    <div class="incoming_msg_img"> <img class="img-fluid"
-                                            src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                                    <div class="received_msg">
-                                        <div class="received_withd_msg">
-                                            <p>Test which is a new approach to have all
-                                                solutions</p>
-                                            <span class="time_date"> 11:01 AM | June 9</span>
+                                <div v-for="(m,index) in messages" :key="index"
+                                    :class="{ 'incoming_msg' : m.sender_id == selected_user.user_id,'outgoing_msg' : m.sender_id == user_id }">
+                                    <div v-if="m.sender_id == selected_user.user_id" :class="{'incoming_msg_img': m.sender_id == selected_user.user_id }">
+                                        <img class="rounded-circle"
+                                            :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img" width="40px"
+                                            height="40px">
+                                    </div>
+                                    <div
+                                        :class="{ 'received_msg' : m.sender_id == selected_user.user_id,'sent_msg' : m.sender_id == user_id }">
+                                        <div :class="{ 'received_withd_msg': m.sender_id == selected_user.user_id }">
+                                            <p>{{ m.text_message }}</p>
+                                            <span class="time_date">{{ m.created_at | moment('hh:mm A')  }} |
+                                                {{ m.created_at | moment('MMMM d, YYYY') }}</span>
                                         </div>
+
                                     </div>
                                 </div>
-                                <div class="outgoing_msg">
-                                    <div class="sent_msg">
-                                        <p>Test which is a new approach to have all
-                                            solutions</p>
-                                        <span class="time_date"> 11:01 AM | June 9</span>
-                                    </div>
-                                </div>
-                                <div class="incoming_msg">
-                                    <div class="incoming_msg_img"> <img class="img-fluid"
-                                            src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                                    <div class="received_msg">
-                                        <div class="received_withd_msg">
-                                            <p>Test, which is a new approach to have</p>
-                                            <span class="time_date"> 11:01 AM | Yesterday</span>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="type_msg">
                                 <div class="input_msg_write">
-                                    <input type="text" class="write_msg" placeholder="Type a message" />
-                                    <button class="msg_send_btn" type="button"><i class="fas fa-paper-plane"></i></button>
+                                    <form @submit.prevent="send_message()">
+                                        <input type="text" v-model="message" class="write_msg" placeholder="Type a message" />
+                                        <button class="msg_send_btn" type="submit"><i
+                                                class="fas fa-paper-plane"></i></button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +110,7 @@
         display: inline-block;
         text-align: right;
         width: 60%;
-        padding:
+        padding:5px;
     }
 
     .headind_srch {

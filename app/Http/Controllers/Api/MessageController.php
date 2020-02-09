@@ -23,7 +23,7 @@ class MessageController extends Controller
         $receiver_id = $id;
 
         $messages = Message::where('sender_id', $sender_id)->where('receiver_id', $receiver_id)->get();
-
+        
         return response()->json($messages);
     }
 
@@ -36,6 +36,7 @@ class MessageController extends Controller
             m.sender_id, 
             m.receiver_id, 
             m.text_message,
+            m.created_at,
             sp.firstname as sender_firstname,
             sp.middlename as sender_middlename,
             sp.lastname as sender_lastname,

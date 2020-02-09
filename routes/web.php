@@ -20,7 +20,10 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
 	Route::get('/home', 'HomeController@index')->name('home');
-	Route::get('/adminhome', 'HomeController@admin')->name('adminhome');
+	Route::get('/admin_dashboard', 'HomeController@index')->name('admin_dashboard');
+
+
+	Route::get('/get_total_service_provider','Api\ServiceProviderController@countServiceProviders')->name('count_service_provider');
 
 	Route::get('/ownerhome', 'HomeController@owner')->name('ownerhome');
 	Route::get('/ownerprofile', 'HomeController@ownerprofile')->name('service_provider_profile');
@@ -142,4 +145,6 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::post('client_create_report', 'ReportController@client_create_report');
 	Route::post('cleaner_create_report', 'ReportController@cleaner_create_report');
+
+
 });
