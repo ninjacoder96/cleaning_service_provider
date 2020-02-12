@@ -18,21 +18,23 @@ class ServiceProviderController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'name' => 'required|unique:service_providers|max:255',
+            'company_name' => 'required|unique:service_providers|max:255',
         ]);
 
     	$owner_id = Auth::user()->id;
 
-    	$image_name_1 = $request->name.".jpg";
+    	$image_name_1 = $request->company_name.".jpg";
     	$image_name_2 = $request->business_permit_no.".jpg";
 
-    	$request->company_img->move(public_path('img/service_providers/logos'), $image_name_1);
-    	$request->permit_img->move(public_path('img/service_providers/permits'), $image_name_2);
-
+		$request->company_img->move(public_path('img/service_providers/logos'), $image_name_1);
+		
+		if(!empty($request->permit_img)){
+    	 $request->permit_img->move(public_path('img/service_providers/permits'), $image_name_2);
+		}
     	$sp = ServiceProvider::firstOrCreate([
     		'owner_id' => $owner_id
     	], [
-    		'name' => $request->name,
+    		'name' => $request->company_name,
     		'company_img' => $image_name_1,
     		'address' => $request->address,
     		'mobile_number' => $request->mobile_number,
@@ -49,7 +51,7 @@ class ServiceProviderController extends Controller
             'receiver_id' => $admin_id,
         ]);
 
-    	return redirect('\ownerprofile');
+    	return response()->json(["success" => 'Request Successfully Sent! Please wait for the Admin to process your Request']);
     }
 
     public function update(){

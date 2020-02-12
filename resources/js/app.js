@@ -61,6 +61,8 @@ Vue.component('client_report-page', require('./pages/client_report.vue').default
 
 
 Vue.component('admin-dashboard-page',require('./pages/admin_dashboard.vue').default);
+Vue.component('service-provider-profile',require('./pages/service_provider_profile.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
