@@ -1,133 +1,376 @@
 <template>
-  <div class="container mt-2">
-      <div class="row">
-        <div class="col-12">
-          <div class="table-responsive-sm">
-            <table class="table-sm">
-              <tbody>
-                <tr>
-                  <td v-for="(contact, index) in contacts" :key="index" @click="select_user(contact)" v-show="contact.id !== user_id" class="text-center">
-                    <div width="100px" height="100px">
-                      <img :src="'img/service_providers/logos/CleanMeister.jpg'" class="rounded-circle" alt="img" width="65px" height="65px">
-                      <div class="w-100"></div>
-                      <small>{{ contact.profile.firstname }} {{ contact.profile.lastname }}</small>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-          <div class="col-12">
-              <div class="card" :disabled="!ready"}
-                  <div class="card-header">
-                      <span v-show="ready">
-                          {{ selected_user.firstname }}  {{ selected_user.lastname }}
-                        </span>
-                  </div>
-                  <div class="card-body" style="height: 22rem;">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" v-for="(m, index) in messages" :key="index" :class="{ 'text-left' : m.sender_id == selected_user.user_id, 'text-right' : m.sender_id == user_id }">
-                            <span class="badge badge-pill" :class="{ 'badge-danger' : m.sender_id == selected_user.user_id, 'badge-primary' : m.sender_id == user_id }">
-                              <small v-show="m.sender_id == selected_user.user_id">{{ m.sender_firstname }} {{ m.sender_middlename }} {{ m.sender_lastname }}</small>
-                              <small v-show="m.sender_id == user_id">{{ m.receiver_firstname }} {{ m.receiver_middlename }} {{ m.receiver_lastname }} </small>
-                              <div class="w-100"></div>
-                              <h5>{{ m.text_message }}</h5>
-                            </span>
-                        </li>
-                    </ul>
-                  </div>
-                  <div class="card-footer">
-                      <form @submit.prevent="send_message()">
-                        <div class="row justify-content-center">
-                            <div class="col-8">
-                                <textarea rows="3" v-model="message" class="form-control form-control-sm"></textarea>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-12">
+            </div>
+            <div class="col-12">
+                <h3 class=" text-center">Messaging</h3>
+                <div class="messaging">
+                    <div class="inbox_msg">
+                        <div class="inbox_people">
+                            <div class="headind_srch">
+                                <div class="recent_heading">
+                                    <h4>Recent</h4>
+                                </div>
+                                <div class="srch_bar">
+                                    <div class="stylish-input-group">
+                                        <input type="text" class="search-bar" placeholder="Search">
+                                        <span class="input-group-addon">
+                                            <button type="button"> <i class="fa fa-search" aria-hidden="true"></i>
+                                            </button>
+                                        </span> </div>
+                                </div>
                             </div>
-                            <div class="col-1">
-                                <button type="submit" class="btn btn-sm btn-primary">Sent</button>
+                            <div class="inbox_chat">
+
+                                <div class="chat_list" v-for="(contact,index) in contacts" :key="index"
+                                    @click="select_user(contact)" v-show="contact.id !== user_id">
+                                    <div class="chat_people">
+                                        <div class="chat_img">
+                                            <img class="rounded-circle"
+                                                :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img"
+                                                width="40px" height="40px">
+                                        </div>
+                                        <div class="chat_ib">
+                                            <h5>{{ contact.profile.firstname }} {{ contact.profile.lastname }}<span
+                                                    class="chat_date">Dec 25</span></h5>
+
+                                            <p v-for="(message,index) in contact.profile.messages" :key="index">
+                                                {{ message.text_message }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+                        <div class="mesgs">
+                            <div class="msg_history">
+                                <div v-for="(m,index) in messages" :key="index"
+                                    :class="{ 'incoming_msg' : m.sender_id == selected_user.user_id,'outgoing_msg' : m.sender_id == user_id }">
+                                    <div v-if="m.sender_id == selected_user.user_id" :class="{'incoming_msg_img': m.sender_id == selected_user.user_id }">
+                                        <img class="rounded-circle"
+                                            :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img" width="40px"
+                                            height="40px">
+                                    </div>
+                                    <div
+                                        :class="{ 'received_msg' : m.sender_id == selected_user.user_id,'sent_msg' : m.sender_id == user_id }">
+                                        <div :class="{ 'received_withd_msg': m.sender_id == selected_user.user_id }">
+                                            <p>{{ m.text_message }}</p>
+                                            <span class="time_date">{{ m.created_at | moment('hh:mm A')  }} |
+                                                {{ m.created_at | moment('MMMM d, YYYY') }}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="type_msg">
+                                <div class="input_msg_write">
+                                    <form @submit.prevent="send_message()">
+                                        <input type="text" v-model="message" class="write_msg" placeholder="Type a message" />
+                                        <button class="msg_send_btn" type="submit"><i
+                                                class="fas fa-paper-plane"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
+<style scoped>
+    .inbox_people {
+        background: #f8f8f8 none repeat scroll 0 0;
+        float: left;
+        overflow: hidden;
+        width: 40%;
+        border-right: 1px solid #c4c4c4;
+    }
 
+    .inbox_msg {
+        border: 1px solid #c4c4c4;
+        clear: both;
+        overflow: hidden;
+    }
+
+    .top_spac {
+        margin: 20px 0 0;
+    }
+
+
+    .recent_heading {
+        float: left;
+        width: 40%;
+    }
+
+    .srch_bar {
+        display: inline-block;
+        text-align: right;
+        width: 60%;
+        padding:5px;
+    }
+
+    .headind_srch {
+        padding: 10px 29px 10px 20px;
+        overflow: hidden;
+        border-bottom: 1px solid #c4c4c4;
+    }
+
+    .recent_heading h4 {
+        color: #05728f;
+        font-size: 21px;
+        margin: auto;
+    }
+
+    .srch_bar input {
+        border: 1px solid #cdcdcd;
+        border-width: 0 0 1px 0;
+        width: 80%;
+        padding: 2px 0 4px 6px;
+        background: none;
+    }
+
+    .srch_bar .input-group-addon button {
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+        border: medium none;
+        padding: 0;
+        color: #707070;
+        font-size: 18px;
+    }
+
+    .srch_bar .input-group-addon {
+        margin: 0 0 0 -27px;
+    }
+
+    .chat_ib h5 {
+        font-size: 15px;
+        color: #464646;
+        margin: 0 0 8px 0;
+    }
+
+    .chat_ib h5 span {
+        font-size: 13px;
+        float: right;
+    }
+
+    .chat_ib p {
+        font-size: 14px;
+        color: #989898;
+        margin: auto
+    }
+
+    .chat_img {
+        float: left;
+        width: 11%;
+    }
+
+    .chat_ib {
+        float: left;
+        padding: 0 0 0 15px;
+        width: 88%;
+    }
+
+    .chat_people {
+        overflow: hidden;
+        clear: both;
+    }
+
+    .chat_list {
+        border-bottom: 1px solid #c4c4c4;
+        margin: 0;
+        padding: 18px 16px 10px;
+    }
+
+    .inbox_chat {
+        height: 550px;
+        overflow-y: scroll;
+    }
+
+    .active_chat {
+        background: #ebebeb;
+    }
+
+    .incoming_msg_img {
+        display: inline-block;
+        width: 6%;
+    }
+
+    .received_msg {
+        display: inline-block;
+        padding: 0 0 0 10px;
+        vertical-align: top;
+        width: 92%;
+    }
+
+    .received_withd_msg p {
+        background: #ebebeb none repeat scroll 0 0;
+        border-radius: 3px;
+        color: #646464;
+        font-size: 14px;
+        margin: 0;
+        padding: 5px 10px 5px 12px;
+        width: 100%;
+    }
+
+    .time_date {
+        color: #747474;
+        display: block;
+        font-size: 12px;
+        margin: 8px 0 0;
+    }
+
+    .received_withd_msg {
+        width: 57%;
+    }
+
+    .mesgs {
+        float: left;
+        padding: 30px 15px 0 25px;
+        width: 60%;
+    }
+
+    .sent_msg p {
+        background: #614084 none repeat scroll 0 0;
+        border-radius: 3px;
+        font-size: 14px;
+        margin: 0;
+        color: #fff;
+        padding: 5px 10px 5px 12px;
+        width: 100%;
+    }
+
+    .outgoing_msg {
+        overflow: hidden;
+        margin: 26px 0 26px;
+    }
+
+    .sent_msg {
+        float: right;
+        width: 46%;
+    }
+
+    .input_msg_write input {
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+        border: medium none;
+        color: #4c4c4c;
+        font-size: 15px;
+        min-height: 48px;
+        width: 100%;
+    }
+
+    .type_msg {
+        border-top: 1px solid #c4c4c4;
+        position: relative;
+    }
+
+    .msg_send_btn {
+        background: #05728f none repeat scroll 0 0;
+        border: medium none;
+        border-radius: 50%;
+        color: #fff;
+        cursor: pointer;
+        font-size: 17px;
+        height: 33px;
+        position: absolute;
+        right: 0;
+        top: 11px;
+        width: 33px;
+    }
+
+    .messaging {
+        padding: 0 0 50px 0;
+    }
+
+    .msg_history {
+        height: 516px;
+        overflow-y: auto;
+    }
+
+</style>
 <script>
-export default {
-    data(){
-        return{
-            contacts: [],
-            selected_user: {},
-            messages: [],
-            message: '',
-            user_id: '',
-            ready: false,
-        }
-    },
-    methods:{
-        get_contacts(){
-            axios.get('../../contact').then(({data}) => {
-                this.contacts = data;
-            }).catch(() => {
+    export default {
+        data() {
+            return {
+                contacts: [],
+                selected_user: {},
+                messages: [],
+                message: '',
+                user_id: '',
+                ready: false,
+            }
+        },
+        methods: {
+            get_contacts() {
+                axios.get('../../contact').then(({
+                    data
+                }) => {
+                    this.contacts = data;
+                }).catch(() => {
 
-            });
-        },
-        select_user(user){
-            this.ready = true;
-            this.selected_user = user.profile;
-            this.get_messages();
-        },
-        get_messages(){
-            axios.get('../../get_message/'+this.selected_user.user_id).then(({data}) => {
-                this.messages = data;
-            }).catch(() => {
-
-            });
-        },
-        send_message(){
-            axios.post('../../send_message/'+this.selected_user.user_id,{
-                text_message: this.message,
-            }).then(() => {
-                this.message= '';
+                });
+            },
+            select_user(user) {
+                this.ready = true;
+                this.selected_user = user.profile;
                 this.get_messages();
-            }).catch(() => {
+            },
+            get_messages() {
+                axios.get('../../get_message/' + this.selected_user.user_id).then(({
+                    data
+                }) => {
+                    this.messages = data;
+                }).catch(() => {
 
+                });
+            },
+            send_message() {
+                axios.post('../../send_message/' + this.selected_user.user_id, {
+                    text_message: this.message,
+                }).then(() => {
+                    this.message = '';
+                    this.get_messages();
+                }).catch(() => {
+
+                });
+            },
+            get_user() {
+                axios.get('../../get_user_id').then(({
+                    data
+                }) => {
+                    this.user_id = data;
+                }).catch(() => {
+
+                });
+            },
+
+        },
+        created() {
+            this.get_user();
+            this.get_contacts();
+
+        },
+        mounted() {
+            window.Echo.channel("message_created").listen(".message.created", (e) => {
+                this.get_messages();
+            });
+            window.Echo.channel("message_updated").listen(".message.updated", (e) => {
+                this.get_messages();
             });
         },
-        get_user(){
-            axios.get('../../get_user_id').then(({data}) => {
-                this.user_id = data;
-            }).catch(() => {
+    }
 
-            });
-        },
-
-    },
-    created(){
-        this.get_user();
-        this.get_contacts();
-
-    },
-    mounted(){
-      window.Echo.channel("message_created").listen(".message.created", (e) => {
-          this.get_messages();
-      });
-      window.Echo.channel("message_updated").listen(".message.updated", (e) => {
-          this.get_messages();
-      });
-    },
-}
 </script>
 
 <style>
-.list-group{
-    height: 18rem !important;
+    .list-group {
+        height: 18rem !important;
 
-    overflow-y:scroll;
-    -webkit-overflow-scrolling: touch;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
 
-}
+    }
+
 </style>

@@ -16,17 +16,15 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
+    public function index(){
         if(Auth::user()->role_id == 1)
         {
-            return view('adminhome');
+            return view('pages.admin_dashboard');
         }
         if(Auth::user()->role_id == 2)
         {
@@ -43,31 +41,26 @@ class HomeController extends Controller
         }
     }
 
-    public function admin()
-    {
-        return view('adminhome');
+    public function admin(){
+        return view('pages.admin_dashboard');
     }
 
-    public function owner()
-    {
+    public function owner(){
         if(Auth::user()->approved == 0){
             return view('pages.service_provider_profile');
         }
         return view('ownerhome');
     }
 
-    public function ownerprofile()
-    {
+    public function ownerprofile(){
         return view('pages.service_provider_profile');
     }
 
-    public function cleaner()
-    {
+    public function cleaner(){
         return view('cleanerhome');
     }
 
-    public function client()
-    {
+    public function client(){
         return view('clienthome');
     }
 }

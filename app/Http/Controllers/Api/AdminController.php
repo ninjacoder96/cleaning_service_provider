@@ -71,9 +71,16 @@ class AdminController extends Controller
         return response()->json($users);
     }
 
-    public function pending_requests(){
+    public function pending_requests(Request $request){
+        if(!empty($request->input('action'))){
+            $data = ServiceProvider::with('owner.profile')->where('approved', 0)->get();
+            $data = $data->count();
+            $data = ["total_count" => $data];
+            return response()->json($data);
+        }
         $data = ServiceProvider::with('owner.profile')->where('approved', 0)->get();
         $service_providers = ServiceProviderResource::collection($data);
+
 
         return response()->json($service_providers);
     }

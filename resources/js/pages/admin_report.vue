@@ -10,7 +10,7 @@
         Select:
       </div>
       <div class="col-sm-3">
-        <select class="form-control form-control-sm">
+        <select class="form-control form-control-sm" v-model="user_role">
           <option value="2">Service Provider</option>
           <option value="3">Cleaner</option>
           <option value="4">Client</option>
@@ -20,16 +20,16 @@
         From:
       </div>
       <div class="col-sm-2">
-        <input type="date" class="form-control form-control-sm">
+        <input type="date" class="form-control form-control-sm" v-model="date_from">
       </div>
       <div class="col-sm-1">
         To:
       </div>
       <div class="col-sm-2">
-        <input type="date" class="form-control form-control-sm">
+        <input type="date" class="form-control form-control-sm" v-model="date_to">
       </div>
       <div class="col-sm-1">
-        <button class="btn btn-sm btn-primary">create</button>
+        <button class="btn btn-sm btn-primary" @click.prevent="admin_create_report()">create</button>
       </div>
     </div>
     <div class="row">
@@ -45,6 +45,11 @@
                   <th></th>
                 </tr>
               </thead>
+              <tbody>
+                <tr>
+                  <td>Test</td>
+                </tr>
+              </tbody>
             </table>
             </div>
         </div>
@@ -57,18 +62,17 @@
 export default {
     data(){
         return{
-            services: [],
-            role_id: '',
-            from: '',
-            to: '',
+            user_role: '',
+            date_from: '',
+            date_to: '',
         }
     },
     methods:{
       admin_create_report(){
         axios.post('../../admin_create_report', {
-          role_id: this.role_id,
-          from: this.from,
-          to:this.to,
+          role_id: this.user_role,
+          from: this.date_from,
+          to:this.date_to,
         }).then(() => {
           
         }).catch(() => {

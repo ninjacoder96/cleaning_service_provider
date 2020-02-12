@@ -20,7 +20,11 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
 	Route::get('/home', 'HomeController@index')->name('home');
-	Route::get('/adminhome', 'HomeController@admin')->name('adminhome');
+	Route::get('/admin_dashboard', 'HomeController@index')->name('admin_dashboard');
+
+
+
+	Route::get('/get_total_service_provider','Api\ServiceProviderController@countServiceProviders')->name('count_service_provider');
 
 	Route::get('/ownerhome', 'HomeController@owner')->name('ownerhome');
 	Route::get('/ownerprofile', 'HomeController@ownerprofile')->name('service_provider_profile');
@@ -33,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 		
 	Route::get('/client_report', 'PageController@client_report');
 	Route::get('/cleaner_report', 'PageController@cleaner_report');
-	Route::get('/service_provider_report', 'PageController@service_provider_rerport');
+	Route::get('/service_provider_report', 'PageController@service_provider_report');
 	Route::get('/admin_report', 'PageController@admin_report');
 
 	Route::get('/schedules', 'PageController@schedules');
@@ -75,7 +79,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::resource('service', 'Api\ServiceController');
 	Route::get('/service/cleaner/{id}', 'Api\ServiceController@select_cleaner');
 
-	Route::post('service_provider_profile', 'ServiceProviderController@store');
+	//Service Provider Requests
+	Route::post('send_business_request', 'ServiceProviderController@store');
 	Route::get('pending_request', 'Api\AdminController@pending_requests');
 	// Route::get('change_password', 'Api\AdminController@change_password');
 
@@ -142,4 +147,6 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::post('client_create_report', 'ReportController@client_create_report');
 	Route::post('cleaner_create_report', 'ReportController@cleaner_create_report');
+
+
 });

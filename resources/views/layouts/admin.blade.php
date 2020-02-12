@@ -76,6 +76,12 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           @if(Auth::user()->role_id == 1)
           <li class="nav-item">
+            <a href="\home" class="nav-link">
+              <i class="nav-icon fas fa-chart-line"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="\manage_accounts" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>

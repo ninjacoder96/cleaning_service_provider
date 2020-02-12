@@ -13,10 +13,17 @@ class ServiceProviderController extends Controller
 
     public function index()
     {
+        
         $data = ServiceProvider::all();
         $service_providers = ServiceProviderResource::collection($data);
 
         return response()->json($service_providers);
+    }
+    
+    public function countServiceProviders(){
+        $data = ServiceProvider::count();
+        
+        return response()->json($data);
     }
 
     public function store(Request $request)
