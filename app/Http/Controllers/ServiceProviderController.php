@@ -24,35 +24,39 @@ class ServiceProviderController extends Controller
     	$owner_id = Auth::user()->id;
 
     	$image_name_1 = $request->name.".jpg";
-    	$image_name_2 = $request->business_permit_no.".jpg";
+		$image_name_2 = $request->business_permit_no.".jpg";
+
+
+		$uploadedFile = $request->file('requestor_attachments');
+		$filename = time(). '_' .$uploadedFile->getClientOriginalName();
 			
 		$request->company_img->move(public_path('img/service_providers/logos'), $image_name_1);
 		
-		if(!empty($request->permit_img)){
-    	 $request->permit_img->move(public_path('img/service_providers/permits'), $image_name_2);
+		if(!empty($request->requestor_attachments)){
+			$uploadedFile->move(public_path('img/service_providers/permits'), $filename);
 		}
     	$sp = ServiceProvider::firstOrCreate([
     		'owner_id' => $owner_id
     	], [
     		'name' => $request->name,
     		'company_img' => $image_name_1,
-    		'address' => $request->address,
+    		'address' => $request->company_address,
     		'mobile_number' => $request->mobile_number,
     		'contact_person' => $request->contact_person,
     		'business_permit_no' => $request->business_permit_no,
-    		'permit_img' => $image_name_2,
+    		'permit_img' => $filename,
     	]);
 
         $admin_id = User::where('role_id', 1)->first();
 
-        $notif = Notification::create([
-			'notification' => 'Transaction Completed',
-            'sender_id' => $owner_id,
-			'receiver_id' => $admin_id,
-			'viewed' => 0,
-        ]);
+		$notif = new Notification();
+		$notif->notification = 'Request Business Permit';
+		$notif->sender_id = $owner_id;
+		$notif->receiver_id =$admin_id->id;
+		$notif->viewed = 0;
+		$notif->save();
 
-    	return response()->json(["success" => 'Request Successfully Sent! Please wait for the Admin to process your Request']);
+    	return response()->json(["status" => 'success',"message" => 'Request Successfully Sent! Please wait for the Admin to process your Request']);
     }
 
     public function update(){

@@ -22,7 +22,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/admin_dashboard', 'HomeController@index')->name('admin_dashboard');
 
-
+	//Route for Getting Roles and Specific Role
+	Route::get('/get_roles','Api\UserController@getRoles')->name('get_roles');
 
 	Route::get('/get_total_service_provider','Api\ServiceProviderController@countServiceProviders')->name('count_service_provider');
 

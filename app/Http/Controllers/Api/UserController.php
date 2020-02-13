@@ -30,6 +30,12 @@ class UserController extends Controller
 
     }
 
+    public function getRoles(){
+        $roles = Role::all()->toArray();
+
+        return response()->json($roles);
+    }
+
     public function store(){
 
     }

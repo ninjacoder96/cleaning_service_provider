@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use App\Exports\AdminExport;
+use App\Models\ServiceProvider;
 use App\Exports\CleanerClientScheduleExport;
 use App\Exports\ClientExport;
 use App\Exports\ServiceProviderExport;
@@ -37,11 +38,17 @@ class ReportController extends Controller
     }
 
     public function admin_create_report(Request $request){
-        var_dump($request->post());
+
     	if($request->role_id == 2){
-
-
-    	}
+            $status = (int)$request->status;
+            $data = ServiceProvider::
+                with('owner')
+                ->whereHas('owner', function($q) use ($status){
+                $q->where('is_active', '=',$status);
+            })->whereBetween('created_at',[$request->from,$request->to])->get();
+            
+            return response()->json($data);
+        }
 
     	if($request->role_id == 3){
 

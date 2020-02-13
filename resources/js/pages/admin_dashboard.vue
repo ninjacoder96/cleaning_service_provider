@@ -22,11 +22,23 @@
               </div> 
             </div>
           </div>
+          <div class="col-sm-12 col-md-12">
+                <FullCalendar defaultView="dayGridMonth" :plugins="calendarPlugins" />
+          </div>
         </div>
       </div>
     </div>
 </template>
 <style scoped>
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+@import '~@fullcalendar/timegrid/main.css';
+
+
+.demo-app-calendar {
+  margin: 0 auto;
+  max-width: 900px;
+}
 .content{
     padding:5px;
 }
@@ -34,11 +46,19 @@
 
 
 <script>
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
 export default {
+    components: {
+      FullCalendar // make the <FullCalendar> tag available
+    },
     data(){
         return{
             total_service_providers: null,
             pending_requests: null,
+            calendarPlugins: [ dayGridPlugin ]
         }
     },
     methods:{

@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="send_business_request()" method="POST" enctype="multipart/form-data">
+    <form @submit.prevent="send_business_request()" id="form__send_business_request" method="POST" enctype="multipart/form-data">
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-4 text-right">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-6">
                 <div id="preview" class="justify-content-center align-items-center">
-                    <img v-if="company_img_url" :src="company_img_url" class="img-fluid"/>
+                    <img v-if="company_img_url" :src="company_img_url" class="img-fluid company_img_preview"/>
                 </div>
                 </div>
             </div>
@@ -56,10 +56,10 @@
             </div>
             <div class="form-group row">
                 <div class="col-4 text-right">
-                    File Optional
+                    Attachments (Optional)
                 </div>
                 <div class="col">
-                    <input type="file" name="permit_img">
+                    <input type="file" name="requestor_attachments" ref="requestor_attachments" @change="getFileAttachments">
                 </div>
             </div>
         </div>
@@ -84,6 +84,7 @@ export default {
         mobile_number:'',
         contact_person:'',
         business_permit_no:'',
+        requestor_attachments:'',
         company_img_url:'',
         company_permit_url:'', 
 
@@ -96,7 +97,11 @@ export default {
             this.company_img_url = URL.createObjectURL(file);
             this.company_img = e.target.files[0];
         },
-         send_business_request() {
+        getFileAttachments(e){
+            const file = e.target.files[0];
+            this.requestor_attachments = e.target.files[0];
+        },
+        send_business_request() {
             let data = new FormData();
             console.log(this.company_img);
             data.append('name',this.name);
@@ -105,6 +110,7 @@ export default {
             data.append('mobile_number',this.mobile_number);
             data.append('contact_person',this.contact_person);
             data.append('business_permit_no',this.business_permit_no);
+            data.append('requestor_attachments',this.requestor_attachments);
 
             let config = {
                 header : {
@@ -112,10 +118,16 @@ export default {
                 }
             }
 
-            axios.post('../../send_business_request',data,config).then((res) => {
-                console.log(res);
-            }).catch(() => {
-
+            axios.post('../../send_business_request',data,config)
+            .then((res) => {
+                $('.company_img_preview').removeAttr('src')
+                 document.getElementById("form__send_business_request").reset();
+                  toast.fire({
+                    type: res.data.status,
+                    title: res.data.message
+                });
+            }).catch((res) => {
+               
             });
         },
     },

@@ -115,7 +115,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" @click="decline_sp()">Decline</button>
-              <button type="button" class="btn btn-success" @click="approved_sp()">Approved</button>
+              <button type="button" class="btn btn-success" @click="approved_sp()">Approve</button>
             </div>
           </div>
         </div>
