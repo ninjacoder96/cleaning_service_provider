@@ -14,7 +14,7 @@
                     Company Logo
                 </div>
                 <div class="col">
-                    <input type="file" class="form-control form-control-sm" name="company_img" @change="previewCompanyImage" required>
+                    <input type="file" class="form-control form-control-sm" name="company_img" ref="company_img" @change="previewCompanyImage" required>
                 </div>
                 <div class="col-md-6">
                 <div id="preview" class="justify-content-center align-items-center">
@@ -82,10 +82,11 @@ export default {
         company_img: '',
         address: '',
         mobile_number:'',
-        contact_number:'',
         contact_person:'',
         business_permit_no:'',
-        company_img_url:'' 
+        company_img_url:'',
+        company_permit_url:'', 
+
 
       }
     },
@@ -93,11 +94,25 @@ export default {
         previewCompanyImage(e) {
             const file = e.target.files[0];
             this.company_img_url = URL.createObjectURL(file);
+            this.company_img = e.target.files[0];
         },
          send_business_request() {
-            axios.post('../../send_business_request',{
-                name: this.name
-            }).then((res) => {
+            let data = new FormData();
+            console.log(this.company_img);
+            data.append('name',this.name);
+            data.append('company_img', this.company_img);
+            data.append('company_address',this.address);
+            data.append('mobile_number',this.mobile_number);
+            data.append('contact_person',this.contact_person);
+            data.append('business_permit_no',this.business_permit_no);
+
+            let config = {
+                header : {
+                'Content-Type' : 'multipart/form-data'
+                }
+            }
+
+            axios.post('../../send_business_request',data,config).then((res) => {
                 console.log(res);
             }).catch(() => {
 

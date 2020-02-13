@@ -5431,21 +5431,33 @@ __webpack_require__.r(__webpack_exports__);
       company_img: '',
       address: '',
       mobile_number: '',
-      contact_number: '',
       contact_person: '',
       business_permit_no: '',
-      company_img_url: ''
+      company_img_url: '',
+      company_permit_url: ''
     };
   },
   methods: {
     previewCompanyImage: function previewCompanyImage(e) {
       var file = e.target.files[0];
       this.company_img_url = URL.createObjectURL(file);
+      this.company_img = e.target.files[0];
     },
     send_business_request: function send_business_request() {
-      axios.post('../../send_business_request', {
-        name: this.name
-      }).then(function (res) {
+      var data = new FormData();
+      console.log(this.company_img);
+      data.append('name', this.name);
+      data.append('company_img', this.company_img);
+      data.append('company_address', this.address);
+      data.append('mobile_number', this.mobile_number);
+      data.append('contact_person', this.contact_person);
+      data.append('business_permit_no', this.business_permit_no);
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post('../../send_business_request', data, config).then(function (res) {
         console.log(res);
       })["catch"](function () {});
     }
@@ -62479,6 +62491,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col" }, [
             _c("input", {
+              ref: "company_img",
               staticClass: "form-control form-control-sm",
               attrs: { type: "file", name: "company_img", required: "" },
               on: { change: _vm.previewCompanyImage }
