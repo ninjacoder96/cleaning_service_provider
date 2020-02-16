@@ -23,10 +23,12 @@ class ContactController extends Controller
 			$contacts = User::with(['profile' => function($query){
 				$query->with(['messages' => function ($q) {
 					$q->orderBy('created_at','desc')->first();
+				
 				}]);
 			}])
 			->where('role_id', 2)
 			->where('id', '<>', $user_id)
+			->where('approved',1)
 			->get()
 			->toArray();
 

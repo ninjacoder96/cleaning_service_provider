@@ -89,7 +89,8 @@ class MessageController extends Controller
 
     public function new_user_messages(){
         $user_id = Auth::user()->id;
-        $messages = Message::where('receiver_id', $user_id)->get()->toArray();
+        $messages = Message::where('receiver_id', $user_id)
+        ->where('viewed',0)->count();
         return response()->json($messages);
     }
 
