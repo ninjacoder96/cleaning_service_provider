@@ -127,6 +127,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('get_user_notifs', 'Api\NotificationController@get_user_notifs');
 
 	Route::get('new_user_messages', 'Api\MessageController@new_user_messages');
+	Route::put('view_message/{id}','Api\MessageController@view_message');
+
 
 	Route::resource('profile', 'Api\ProfileController');
 

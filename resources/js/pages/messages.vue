@@ -13,31 +13,34 @@
                                     <h4>Recent</h4>
                                 </div>
                                 <div class="srch_bar">
-                                    <div class="stylish-input-group">
-                                        <input type="text" class="search-bar" placeholder="Search">
-                                        <span class="input-group-addon">
-                                            <button type="button"> <i class="fa fa-search" aria-hidden="true"></i>
-                                            </button>
-                                        </span> </div>
+                                        <!--<div class="stylish-input-group">
+                                    //     <input type="text" class="search-bar" placeholder="Search">
+                                    //     <span class="input-group-addon">
+                                    //         <button type="button"> <i class="fa fa-search" aria-hidden="true"></i>
+                                    //         </button>
+                                    //     </span> </div>-->
                                 </div>
                             </div>
                             <div class="inbox_chat">
 
                                 <div class="chat_list" v-for="(contact,index) in contacts" :key="index"
-                                    @click="select_user(contact)" v-show="contact.id !== user_id">
+                                    @click="(select_user(contact),view_message(contact.id))" v-show="contact.id !== user_id">
                                     <div class="chat_people">
                                         <div class="chat_img">
                                             <img class="rounded-circle"
-                                                :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img"
+                                                :src="'../img/profiles/' +contact.profile.profile_pic" alt="img"
                                                 width="40px" height="40px">
                                         </div>
                                         <div class="chat_ib">
-                                            <h5>{{ contact.profile.firstname }} {{ contact.profile.lastname }}<span
-                                                    class="chat_date">Dec 25</span></h5>
-
-                                            <p v-for="(message,index) in contact.profile.messages" :key="index">
+                                              <h5>{{ contact.profile.firstname }} {{ contact.profile.lastname }}</h5>
+                                            <div class="latest_messages" v-for="(message,index) in contact.profile.messages" :key="index">
+                                            
+                                                <p class="chat_date text-right">{{ date(message.created_at)  }}</p>
+                                            <p>
                                                 {{ message.text_message }}
                                             </p>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +52,7 @@
                                     :class="{ 'incoming_msg' : m.sender_id == selected_user.user_id,'outgoing_msg' : m.sender_id == user_id }">
                                     <div v-if="m.sender_id == selected_user.user_id" :class="{'incoming_msg_img': m.sender_id == selected_user.user_id }">
                                         <img class="rounded-circle"
-                                            :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img" width="40px"
+                                            :src="'../img/profiles/' +  m.sender_profile_pic" alt="img" width="40px"
                                             height="40px">
                                     </div>
                                     <div
@@ -57,7 +60,7 @@
                                         <div :class="{ 'received_withd_msg': m.sender_id == selected_user.user_id }">
                                             <p>{{ m.text_message }}</p>
                                             <span class="time_date">{{ m.created_at | moment('hh:mm A')  }} |
-                                                {{ m.created_at | moment('MMMM d, YYYY') }}</span>
+                                                {{ date(m.created_at) }}</span>
                                         </div>
 
                                     </div>
@@ -291,6 +294,7 @@
 
 </style>
 <script>
+import moment from 'moment'
     export default {
         data() {
             return {
@@ -336,6 +340,16 @@
 
                 });
             },
+            view_message(id){
+                axios.put('../../view_message/' + id)
+                
+                .then((res) => {
+
+
+                }).catch(() => {
+                
+                });
+            },
             get_user() {
                 axios.get('../../get_user_id').then(({
                     data
@@ -345,6 +359,10 @@
 
                 });
             },
+
+            date: function (date) {
+                return moment(date).format('MMMM D, YYYY');
+            }
 
         },
         created() {
@@ -359,7 +377,7 @@
             window.Echo.channel("message_updated").listen(".message.updated", (e) => {
                 this.get_messages();
             });
-        },
+        }
     }
 
 </script>

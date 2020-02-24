@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
@@ -65,6 +66,10 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
+        $profile_pic = $data->file['profile_pic'];
+        $newProfilePic = time() . '__' . $data['profile_pic']->getClientOriginalName();
+        $profile_pic->move(public_path('img/profiles'),  $newProfilePic );
+        
         $user = User::create([
             'username' => $data['username'],
             'email' => $data['email'],
@@ -79,6 +84,7 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'mobile_number' => $data['mobile_number'],
             'date_of_birth' => $data['date_of_birth'],
+            'profile_pic' => $newProfilePic 
         ]);
 
         return $user;
