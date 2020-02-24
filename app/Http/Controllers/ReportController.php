@@ -7,6 +7,7 @@ use DB;
 use Auth;
 use App\Exports\AdminExport;
 use App\Models\ServiceProvider;
+use App\User;
 use App\Exports\CleanerClientScheduleExport;
 use App\Exports\ClientExport;
 use App\Exports\ServiceProviderExport;
@@ -50,17 +51,19 @@ class ReportController extends Controller
             return response()->json($data);
         }
 
-    	if($request->role_id == 3){
+
+        $status = (int)$request->status;
+        $data =  User::with('profile')
+                ->whereHas('profile',function($q) use ($status){
+                    $q->where('is_active', '=',$status);
+                })->where('role_id', $request->role_id)->get();
 
 
-    	}
+     
 
-    	if($request->role_id == 4){
+    	
 
-
-    	}
-
-    	return response()->json();
+    	return response()->json($data);
     }
 
     public function client_create_report(Request $request){

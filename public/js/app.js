@@ -21646,14 +21646,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      services: []
+      user_role: '',
+      date_from: '',
+      date_to: '',
+      status: '',
+      role_data: [],
+      reports_data: []
     };
   },
-  methods: {},
-  created: function created() {}
+  methods: {
+    service_provider_create_report: function service_provider_create_report() {
+      var _this = this;
+
+      axios.post('../../admin_create_report', {
+        role_id: this.user_role,
+        from: this.date_from,
+        to: this.date_to,
+        status: this.status
+      }).then(function (res) {
+        _this.reports_data = res.data;
+      })["catch"](function () {});
+    },
+    fetchRole: function fetchRole() {
+      var _this2 = this;
+
+      axios.get('../../get_roles').then(function (res) {
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].name == 'Client' || res.data[i].name == 'Cleaner') {
+            _this2.role_data.push(res.data[i]);
+          }
+        }
+
+        console.log(_this2.role_data);
+      })["catch"](function () {});
+    },
+    print_data: function print_data() {
+      window.print();
+    }
+  },
+  mounted: function mounted() {
+    this.fetchRole();
+  }
 });
 
 /***/ }),
@@ -28608,7 +28684,7 @@ exports.i(__webpack_require__(/*! -!../../../node_modules/css-loader??ref--6-1!.
 exports.i(__webpack_require__(/*! -!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!@fullcalendar/timegrid/main.css */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@fullcalendar/timegrid/main.css"), "");
 
 // module
-exports.push([module.i, "\n.demo-app-calendar[data-v-3e4cd14b] {\n  margin: 0 auto;\n  max-width: 900px;\n}\n.content[data-v-3e4cd14b]{\n    padding:5px;\n}\n", ""]);
+exports.push([module.i, "\n.demo-app-calendar[data-v-3e4cd14b] {\r\n  margin: 0 auto;\r\n  max-width: 900px;\n}\n.content[data-v-3e4cd14b]{\r\n    padding:5px;\n}\r\n", ""]);
 
 // exports
 
@@ -28627,7 +28703,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@media print {\nbody * {\n    visibility: hidden;\n}\n#report_data_table, #report_data_table * {\n    visibility: visible;\n}\n#report_data_table {\n    position: absolute;\n    left: 0;\n    top: 0;\n}\n}\n", ""]);
+exports.push([module.i, "\n@media print {\nbody * {\r\n    visibility: hidden;\n}\n#report_data_table, #report_data_table * {\r\n    visibility: visible;\n}\n#report_data_table {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -28684,7 +28760,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.list-group{\n    height: 23rem;\n\n    overflow-y:scroll;\n    -webkit-overflow-scrolling: touch;\n}\n", ""]);
+exports.push([module.i, "\n.list-group{\r\n    height: 23rem;\r\n\r\n    overflow-y:scroll;\r\n    -webkit-overflow-scrolling: touch;\n}\r\n", ""]);
 
 // exports
 
@@ -28703,7 +28779,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#preview img[data-v-0612e8e4] {\n  max-width: 100%;\n  max-height: 500px;\n}\n", ""]);
+exports.push([module.i, "\n#preview img[data-v-0612e8e4] {\r\n  max-width: 100%;\r\n  max-height: 500px;\n}\r\n", ""]);
 
 // exports
 
@@ -96719,67 +96795,282 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container mt-2" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-1" }, [
+                _vm._v(
+                  "\n                            Select:\n                        "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-3" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user_role,
+                        expression: "user_role"
+                      }
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.user_role = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.role_data, function(val) {
+                    return _c(
+                      "option",
+                      { key: val.id, domProps: { value: val.id } },
+                      [
+                        _vm._v(
+                          "\n                                    " +
+                            _vm._s(val.name) +
+                            "\n                                "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-1" }, [
+                _vm._v(
+                  "\n                            From:\n                        "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-2" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.date_from,
+                      expression: "date_from"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "date" },
+                  domProps: { value: _vm.date_from },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.date_from = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-1" }, [
+                _vm._v(
+                  "\n                            To:\n                        "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-2" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.date_to,
+                      expression: "date_to"
+                    }
+                  ],
+                  staticClass: "form-control form-control-sm",
+                  attrs: { type: "date" },
+                  domProps: { value: _vm.date_to },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.date_to = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-2" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.status,
+                        expression: "status"
+                      }
+                    ],
+                    staticClass: "form-control form-control-sm",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.status = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("Active")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v("Inactive")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("br"),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-4" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-primary",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.service_provider_create_report()
+                      }
+                    }
+                  },
+                  [_vm._v("create")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-primary",
+                    attrs: { name: "print_report" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.print_data()
+                      }
+                    }
+                  },
+                  [_vm._v("Print Report")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-12" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "table-responsive-sm",
+                    attrs: { id: "report_data_table" }
+                  },
+                  [
+                    _c("table", { staticClass: "table table-sm" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.reports_data, function(data, index) {
+                          return _c("tr", { key: index }, [
+                            _c("td", [_vm._v(_vm._s(data.id))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(
+                                  data.profile.firstname +
+                                    " " +
+                                    data.profile.lastname
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(data.profile.address))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(data.profile.mobile_number))
+                            ]),
+                            _vm._v(" "),
+                            data.is_active == 1
+                              ? _c("td", [_vm._v("Yes")])
+                              : _c("td", [_vm._v("No")])
+                          ])
+                        }),
+                        0
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container mt-2" }, [
+    return _c("div", { staticClass: "card-header" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-auto" }, [
-                  _c("h4", [_vm._v("Service Provider Report")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-auto" })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-12" }, [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "table-responsive-sm",
-                      attrs: { id: "report_data_table" }
-                    },
-                    [
-                      _c("table", { staticClass: "table table-sm" }, [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [_vm._v("ID")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Name")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Address")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Mobile Number")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Contact Person")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Business Permit No")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Active")])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("tbody")
-                      ])
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ])
+        _c("div", { staticClass: "col-auto" }, [
+          _c("h4", [_vm._v("Service Provider Report")])
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-auto" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Address")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Mobile Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Active")])
       ])
     ])
   }
@@ -116551,8 +116842,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/cleaning_service_provider/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/cleaning_service_provider/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\cleaning_service_provider\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\cleaning_service_provider\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
