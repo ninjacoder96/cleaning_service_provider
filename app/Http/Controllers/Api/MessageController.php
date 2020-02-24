@@ -40,6 +40,7 @@ class MessageController extends Controller
             sp.firstname as sender_firstname,
             sp.middlename as sender_middlename,
             sp.lastname as sender_lastname,
+            sp.profile_pic as sender_profile_pic,
             rp.firstname as receiver_firstname,
             rp.middlename as receiver_middlename,
             rp.lastname as receiver_lastname

@@ -22,11 +22,14 @@ class CleanerController extends Controller
         $data = CleanerServiceProvider::with(['cleaner', 'service_provider'])
         ->where('service_provider_id', $sp->id)
         ->get();
-
-        DB::table('user_profiles as u')->join('cleaner_service_provider as csp', 'csp.cleaner_id', '=', 'u.id')
-        ->where('csp.service_provider_id', $sp->id)
-        ->select('u.user_id as id', 'cleaner.firstname', 'cleaner.middlename', 'cleaner.lastname')
-        ->get();
+          
+        // echo '<pre>';
+        // print_r($data);
+        // echo '<pre>';
+        // DB::table('user_profiles as u')->join('cleaner_service_provider as csp', 'csp.cleaner_id', '=', 'u.id')
+        // ->where('csp.service_provider_id', $sp->id)
+        // ->select('u.user_id as id', 'cleaner.firstname', 'cleaner.middlename', 'cleaner.lastname')
+        // ->get();
 
 
 

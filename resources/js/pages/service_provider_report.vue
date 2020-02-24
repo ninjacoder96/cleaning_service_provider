@@ -14,7 +14,28 @@
                       </div>
                   </div>
                   <div class="card-body">
-
+                         <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive-sm" id="report_data_table">
+              <table class="table table-sm" >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Mobile Number</th>
+                  <th>Contact Person</th>
+                  <th>Business Permit No</th>
+                  <th>Active</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+              </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
                   </div>
               </div>
           </div>

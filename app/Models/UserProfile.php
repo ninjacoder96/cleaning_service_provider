@@ -15,7 +15,8 @@ class UserProfile extends Model
     	'middlename',
     	'mobile_number',
     	'address',
-    	'date_of_birth',
+		'date_of_birth',
+		'profile_pic',
 	];
 	
 	public function messages(){

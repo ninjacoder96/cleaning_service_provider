@@ -28,7 +28,7 @@
                                     <div class="chat_people">
                                         <div class="chat_img">
                                             <img class="rounded-circle"
-                                                :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img"
+                                                :src="'../img/profiles/' +contact.profile.profile_pic" alt="img"
                                                 width="40px" height="40px">
                                         </div>
                                         <div class="chat_ib">
@@ -52,7 +52,7 @@
                                     :class="{ 'incoming_msg' : m.sender_id == selected_user.user_id,'outgoing_msg' : m.sender_id == user_id }">
                                     <div v-if="m.sender_id == selected_user.user_id" :class="{'incoming_msg_img': m.sender_id == selected_user.user_id }">
                                         <img class="rounded-circle"
-                                            :src="'img/service_providers/logos/CleanMeister.jpg'" alt="img" width="40px"
+                                            :src="'../img/profiles/' +  m.sender_profile_pic" alt="img" width="40px"
                                             height="40px">
                                     </div>
                                     <div

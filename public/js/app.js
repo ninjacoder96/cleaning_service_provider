@@ -21625,6 +21625,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -94003,7 +94024,8 @@ var render = function() {
                             staticClass: "rounded-circle",
                             attrs: {
                               src:
-                                "img/service_providers/logos/CleanMeister.jpg",
+                                "../img/profiles/" +
+                                contact.profile.profile_pic,
                               alt: "img",
                               width: "40px",
                               height: "40px"
@@ -94091,7 +94113,7 @@ var render = function() {
                                 staticClass: "rounded-circle",
                                 attrs: {
                                   src:
-                                    "img/service_providers/logos/CleanMeister.jpg",
+                                    "../img/profiles/" + m.sender_profile_pic,
                                   alt: "img",
                                   width: "40px",
                                   height: "40px"
@@ -96720,7 +96742,42 @@ var staticRenderFns = [
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" })
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "table-responsive-sm",
+                      attrs: { id: "report_data_table" }
+                    },
+                    [
+                      _c("table", { staticClass: "table table-sm" }, [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [_vm._v("ID")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Name")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Address")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Mobile Number")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Contact Person")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Business Permit No")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Active")])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tbody")
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            ])
           ])
         ])
       ])
