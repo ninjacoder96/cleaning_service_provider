@@ -14,10 +14,12 @@ class ServiceProviderController extends Controller
     public function index()
     {
         
-        $data = ServiceProvider::all();
-        $service_providers = ServiceProviderResource::collection($data);
+        $data = ServiceProvider::with('services')->has('services')->get();
+        // var_dump($data);
+        // exit;
+        // $service_providers = ServiceProviderResource::collection($data);
 
-        return response()->json($service_providers);
+        return response()->json($data);
     }
     
     public function countServiceProviders(){
@@ -32,8 +34,10 @@ class ServiceProviderController extends Controller
     }
 
     public function show($id){
-        $datum = ServiceProvider::findOrFail($id);
-        $service_provider = new ServiceProviderResource($datum);
+
+        $data = ServiceProvider::findOrFail($id);
+        
+        $service_provider = new ServiceProviderResource($data);
 
         return response()->json($service_provider);
     }

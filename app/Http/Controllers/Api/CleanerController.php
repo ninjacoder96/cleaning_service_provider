@@ -18,11 +18,12 @@ class CleanerController extends Controller
     public function index(){
         $sp = ServiceProvider::where('owner_id', Auth::user()->id)->first();
         $word = request()->word;
+        // var_dump($sp);
 
         $data = CleanerServiceProvider::with(['cleaner', 'service_provider'])
         ->where('service_provider_id', $sp->id)
         ->get();
-          
+
         // echo '<pre>';
         // print_r($data);
         // echo '<pre>';
@@ -87,7 +88,7 @@ class CleanerController extends Controller
     }
 
     public function destroy($id){
-        $cleaner = Cleaner::where('id', $id)->first();
+        $cleaner = CleanerServiceProvider::where('cleaner_id', $id)->delete();
 
         return response()->json();
     }

@@ -18956,7 +18956,13 @@ __webpack_require__.r(__webpack_exports__);
         $('#cleanerModal').modal('hide');
       })["catch"](function () {});
     },
-    delete_cleaner: function delete_cleaner(id) {}
+    delete_cleaner: function delete_cleaner(id) {
+      var _this4 = this;
+
+      axios["delete"]('../cleaner/' + id).then(function () {
+        _this4.get_cleaners();
+      });
+    }
   },
   created: function created() {
     this.get_cleaners();
@@ -21241,12 +21247,37 @@ __webpack_require__.r(__webpack_exports__);
         start_time: this.form.start_time,
         end_time: this.form.end_time,
         service_id: this.form.service_id
-      }).then(function (_ref11) {
-        var data = _ref11.data;
+      }).then(function (res) {
+        res.data.forEach(function (el, index) {
+          if (el.code == 500) {
+            toast.fire({
+              position: 'middle',
+              icon: "warning",
+              title: el.msg
+            });
+            console.log(data);
 
-        _this11.get_all();
+            _this11.get_all();
+          } else if (el.code == 200) {
+            toast.fire({
+              position: 'middle',
+              icon: "success",
+              title: el.msg
+            });
+            console.log(data);
 
-        $('#scheduleModal').modal('hide');
+            _this11.get_all();
+          }
+        }); // if(res.data[0].code == 500){
+        //   toast.fire({
+        //     icon: "warning",
+        //     title: res.data[0].msg,
+        //     buttons: false,
+        //   });
+        //   console.log(data);
+        //   this.get_all();
+        // }
+        // $('#scheduleModal').modal('hide');
       })["catch"](function () {});
     },
     edit_schedule: function edit_schedule(s) {
@@ -21285,7 +21316,7 @@ __webpack_require__.r(__webpack_exports__);
       this.get_saturday();
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.get_days(); // this.get_all();
 
     this.get_services();
@@ -95676,6 +95707,59 @@ var render = function() {
                                   ],
                                   attrs: {
                                     type: "checkbox",
+                                    value: "7",
+                                    name: "days"
+                                  },
+                                  domProps: {
+                                    checked: Array.isArray(_vm.form.days)
+                                      ? _vm._i(_vm.form.days, "7") > -1
+                                      : _vm.form.days
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.form.days,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = "7",
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              _vm.form,
+                                              "days",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              _vm.form,
+                                              "days",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(_vm.form, "days", $$c)
+                                      }
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.days,
+                                      expression: "form.days"
+                                    }
+                                  ],
+                                  attrs: {
+                                    type: "checkbox",
                                     value: "1",
                                     name: "days"
                                   },
@@ -95956,59 +96040,6 @@ var render = function() {
                                         $$c = $$el.checked ? true : false
                                       if (Array.isArray($$a)) {
                                         var $$v = "6",
-                                          $$i = _vm._i($$a, $$v)
-                                        if ($$el.checked) {
-                                          $$i < 0 &&
-                                            _vm.$set(
-                                              _vm.form,
-                                              "days",
-                                              $$a.concat([$$v])
-                                            )
-                                        } else {
-                                          $$i > -1 &&
-                                            _vm.$set(
-                                              _vm.form,
-                                              "days",
-                                              $$a
-                                                .slice(0, $$i)
-                                                .concat($$a.slice($$i + 1))
-                                            )
-                                        }
-                                      } else {
-                                        _vm.$set(_vm.form, "days", $$c)
-                                      }
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.days,
-                                      expression: "form.days"
-                                    }
-                                  ],
-                                  attrs: {
-                                    type: "checkbox",
-                                    value: "7",
-                                    name: "days"
-                                  },
-                                  domProps: {
-                                    checked: Array.isArray(_vm.form.days)
-                                      ? _vm._i(_vm.form.days, "7") > -1
-                                      : _vm.form.days
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$a = _vm.form.days,
-                                        $$el = $event.target,
-                                        $$c = $$el.checked ? true : false
-                                      if (Array.isArray($$a)) {
-                                        var $$v = "7",
                                           $$i = _vm._i($$a, $$v)
                                         if ($$el.checked) {
                                           $$i < 0 &&
@@ -114826,10 +114857,8 @@ Vue.use(vue_moment__WEBPACK_IMPORTED_MODULE_1___default.a);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 var toast = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
-  toast: true,
   position: 'top-end',
-  showConfirmButton: true,
-  timer: 3000
+  timer: 5000
 });
 window.toast = toast;
 Vue.component('messages-page', __webpack_require__(/*! ./pages/messages.vue */ "./resources/js/pages/messages.vue")["default"]);

@@ -148,13 +148,13 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td><input type="checkbox" v-model="form.days" value="7" name="days"></td>
                                         <td><input type="checkbox" v-model="form.days" value="1" name="days"></td>
                                         <td><input type="checkbox" v-model="form.days" value="2" name="days"></td>
                                         <td><input type="checkbox" v-model="form.days" value="3" name="days"></td>
                                         <td><input type="checkbox" v-model="form.days" value="4" name="days"></td>
                                         <td><input type="checkbox" v-model="form.days" value="5" name="days"></td>
                                         <td><input type="checkbox" v-model="form.days" value="6" name="days"></td>
-                                        <td><input type="checkbox" v-model="form.days" value="7" name="days"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -305,10 +305,36 @@ export default {
                 start_time: this.form.start_time,
                 end_time: this.form.end_time,
                 service_id: this.form.service_id,
-            }).then(({data}) => {
-
-                this.get_all();
-                $('#scheduleModal').modal('hide');
+            }).then(res => {
+                res.data.forEach((el,index) =>{
+                  if(el.code == 500){
+                    toast.fire({
+                      position: 'middle',
+                      icon: "warning",
+                      title: el.msg,
+                    });
+                    console.log(data);
+                    this.get_all();
+                  }else if(el.code == 200){
+                    toast.fire({
+                      position: 'middle',
+                      icon: "success",
+                      title: el.msg,
+                    });
+                    console.log(data);
+                    this.get_all();
+                  }
+                });
+              // if(res.data[0].code == 500){
+              //   toast.fire({
+              //     icon: "warning",
+              //     title: res.data[0].msg,
+              //     buttons: false,
+              //   });
+              //   console.log(data);
+              //   this.get_all();
+              // }
+                // $('#scheduleModal').modal('hide');
             }).catch(() => {
 
             });
@@ -348,7 +374,7 @@ export default {
           this.get_saturday()
         }
     },
-    created(){
+    mounted(){
         this.get_days();
         // this.get_all();
         this.get_services();

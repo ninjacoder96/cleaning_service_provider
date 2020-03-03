@@ -251,7 +251,9 @@ export default {
             });
         },
         delete_cleaner(id){
-
+            axios.delete('../cleaner/'+id).then(() => {
+                this.get_cleaners();
+        	})
         }
     },
     created(){

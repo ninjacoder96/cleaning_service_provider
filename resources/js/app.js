@@ -24,10 +24,8 @@ Vue.use(VueMoment);
 
 
 const toast = Swal.mixin({
-    toast: true,
     position: 'top-end',
-    showConfirmButton: true,
-    timer: 3000
+    timer: 5000
   });
 window.toast = toast;
 

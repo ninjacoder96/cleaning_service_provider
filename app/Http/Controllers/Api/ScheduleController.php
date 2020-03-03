@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use App\Models\Schedule;
 use App\Http\Resources\Schedule as ScheduleResource;
+use App\CustomHelpers\ScheduleClass as ScheduleClass;
 
 class ScheduleController extends Controller
 {
@@ -28,22 +29,42 @@ class ScheduleController extends Controller
 
     public function store(Request $request)
     {
+        $msg = array();
+        $days = array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday');
         $cleaner_id = Auth::id();
-
         $day = $request->days;
         $count = count($day);
+    
+        $getSchedules = Schedule::with('service')->where('cleaner_id',$cleaner_id)->get()->toArray();
+        if($getSchedules){
+            foreach($getSchedules as $key => $schedule){
+                for($i=0; $i < $count; $i++){
 
-        for($i=0; $i < $count; $i++){
-             $schedule = Schedule::firstOrcreate([
-                'cleaner_id' => $cleaner_id,
-                'service_id' => $request->service_id,
-                'day_id' => $day[$i],
-                'start_time' => $request->start_time,
-                'end_time' => $request->end_time,
-            ]);
+                    $start_time_db = strtotime($schedule["start_time"]);
+                    $end_time_db = strtotime($schedule["end_time"]);
+                    
+                    $start_time_timestamp = strtotime($request->start_time);
+                    $end_time_timestamp = strtotime($request->end_time);
+
+                    if($schedule["service_id"] === (int)$request->service_id && $schedule["day_id"] === (int)$day[$i]){  
+                        
+                        ScheduleClass::validateSchedule($day[$i],$schedule,$start_time_db,$end_time_db,$start_time_timestamp,$end_time_timestamp);
+                        $user = Schedule::firstOrCreate([
+                            'cleaner_id' => $cleaner_id,
+                            'day_id' => (int)$request->day_id,
+                            'service_id'=> $request->service_id,
+                            'start_time' => $request->start_time,
+                            'end_time' => $request->end_time
+                        ]);
+                        $msg[] = array(
+                            "msg" => 'Schedule Added',
+                            "code" => 200
+                        );
+                        return response()->json($msg);
+                    }
+                }
+            }
         }
-
-        return response()->json();
     }
 
     public function update(Request $request, $id)
